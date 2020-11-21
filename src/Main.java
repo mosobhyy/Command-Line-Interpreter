@@ -13,6 +13,9 @@ public class Main
             System.out.print("~$ ");
             String input = scanner.nextLine();
 
+            if(input.isEmpty())
+                continue;
+
             if (input.equalsIgnoreCase("exit"))
                 break;
 
@@ -24,21 +27,20 @@ public class Main
                 if (p.parse(separated_input[1]))
                     executeCmd(p, t);
             }
-            else if(input.contains(" >> "))
+            else if (input.contains(" >> "))
             {
                 String[] separated_input = input.split(" >> ");
                 if (p.parse(separated_input[0]))
                     executeCmdToFile(p, t, separated_input[1], true);
             }
-            else if(input.contains(" > "))
+            else if (input.contains(" > "))
             {
                 String[] separated_input = input.split(" > ");
                 if (p.parse(separated_input[0]))
                     executeCmdToFile(p, t, separated_input[1], false);
             }
-            else
-                if (p.parse(input))
-                    executeCmd(p, t);
+            else if (p.parse(input))
+                executeCmd(p, t);
         }
     }
 
@@ -73,6 +75,7 @@ public class Main
         else if (p.getCmd().contentEquals("date"))
             t.date();
     }
+
     private static void executeCmdToFile(Parser p, Terminal t, String path, boolean append) throws IOException
     {
         if (p.getCmd().contentEquals("cp"))
@@ -96,7 +99,7 @@ public class Main
         else if (p.getCmd().contentEquals("ls"))
             t.lsToFile(path, append);
         else if (p.getCmd().contentEquals("help"))
-            t.helptoFile(path, append);
+            t.helpToFile(path, append);
         else if (p.getCmd().contentEquals("pwd"))
             t.pwdToFile(path, append);
         else if (p.getCmd().contentEquals("clear"))

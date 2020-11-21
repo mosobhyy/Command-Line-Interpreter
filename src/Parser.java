@@ -7,7 +7,7 @@ public class Parser
 
     private String[] args;
     private String cmd;
-    private final Map<String, Integer> commands = new HashMap<String, Integer>()
+    private final Map<String, Integer> commands = new HashMap<>()
     {
         {
             put("cp", 2);
@@ -31,8 +31,6 @@ public class Parser
 
     public boolean parse(String input)
     {
-        setCmd(null);
-        setArgs(null);
         String[] separated_input = input.split(" ");
         int length = separated_input.length;
 
@@ -54,7 +52,7 @@ public class Parser
 
         else if (commands.get(getCmd()) < getArgs().length)
         {
-            System.out.println("Too much arguments !");
+            System.out.println("Too many arguments !");
             return false;
         }
 

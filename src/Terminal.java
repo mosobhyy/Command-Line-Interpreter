@@ -44,7 +44,7 @@ public class Terminal
     }
 
     // Write Directory's Content to file
-    public void lsToFile(String path, boolean append) throws IOException
+    public void lsToFile(String path, boolean append)
     {
         try
         {
@@ -109,24 +109,31 @@ public class Terminal
     // Write File's Content to file
     public void catOrMoreToFile(String sourcePath, String destinationPath, boolean append) throws IOException
     {
-        sourcePath = checkPath(sourcePath);
-        destinationPath = checkPath(destinationPath);
-        File source = new File(sourcePath);
-        File destination = new File(destinationPath);
-        if (checkFile(source))
+        try
         {
-            if (!destination.isFile())
+            sourcePath = checkPath(sourcePath);
+            destinationPath = checkPath(destinationPath);
+            File source = new File(sourcePath);
+            File destination = new File(destinationPath);
+            if (checkFile(source))
             {
-                destinationPath = destinationPath + '/' + source.getName();
-                destination = new File(destinationPath);
+                if (!destination.isFile())
+                {
+                    destinationPath = destinationPath + '/' + source.getName();
+                    destination = new File(destinationPath);
+                }
+                destination.createNewFile();
+                Scanner myReader = new Scanner(source);
+                FileWriter myWriter = new FileWriter(destination, append);
+                while (myReader.hasNextLine())
+                    myWriter.write(myReader.nextLine() + "\n");
+                myReader.close();
+                myWriter.close();
             }
-            destination.createNewFile();
-            Scanner myReader = new Scanner(source);
-            FileWriter myWriter = new FileWriter(destination, append);
-            while (myReader.hasNextLine())
-                myWriter.write(myReader.nextLine() + "\n");
-            myReader.close();
-            myWriter.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("No such file or directory");
         }
     }
 
@@ -237,7 +244,7 @@ public class Terminal
     }
 
     // Write command's Arguments to File
-    public void argsToFile(String command, String path, boolean append) throws IOException
+    public void argsToFile(String command, String path, boolean append)
     {
         try
         {
@@ -274,7 +281,7 @@ public class Terminal
     }
 
     // Write date and time to File
-    public void dateToFile(String path, boolean append) throws IOException
+    public void dateToFile(String path, boolean append)
     {
         try
         {
@@ -316,7 +323,7 @@ public class Terminal
     }
 
     // Write all user's commands and the syntax of their arguments to File
-    public void helptoFile(String path, boolean append)
+    public void helpToFile(String path, boolean append)
     {
         try
         {
